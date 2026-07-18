@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doctor Dashboard | HealthBridge</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="brand">🩺 HealthBridge</div>
+  <div class="nav-links">
+    <span id="welcomeMsg"></span>
+    <button class="btn small secondary" onclick="logout()">Logout</button>
+  </div>
+</nav>
+
+<div class="container page">
+  <div class="dashboard-header"><h1>Doctor Dashboard</h1></div>
+
+  <div class="tabs">
+    <button class="active" data-tab="appointments" onclick="switchTab('appointments')">Appointments</button>
+    <button data-tab="patients" onclick="switchTab('patients')">My Patients</button>
+    <button data-tab="profile" onclick="switchTab('profile')">Profile</button>
+  </div>
+
+  <div id="tab-appointments" class="tab-content">
+    <div class="card">
+      <table>
+        <thead><tr><th>Patient</th><th>Phone</th><th>Date</th><th>Time</th><th>Reason</th><th>Status</th><th>Update</th></tr></thead>
+        <tbody id="apptTable"></tbody>
+      </table>
+      <div id="apptEmpty" class="empty-state" style="display:none;">No appointments yet.</div>
+    </div>
+  </div>
+
+  <div id="tab-patients" class="tab-content" style="display:none;">
+    <div class="card">
+      <table>
+        <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Gender</th><th>Blood Group</th><th>Add Record</th></tr></thead>
+        <tbody id="patientsTable"></tbody>
+      </table>
+      <div id="patientsEmpty" class="empty-state" style="display:none;">No patients yet.</div>
+    </div>
+  </div>
+
+  <div id="tab-profile" class="tab-content" style="display:none;">
+    <div class="card" style="max-width:480px;">
+      <div id="profileAlert"></div>
+      <form onsubmit="return saveProfile(event)">
+        <div class="form-group"><label>Name</label><input type="text" id="dName" disabled></div>
+        <div class="form-group"><label>Email</label><input type="email" id="dEmail" disabled></div>
+        <div class="form-group"><label>Phone</label><input type="text" id="dPhone"></div>
+        <div class="form-group"><label>Specialization</label><input type="text" id="dSpecialization" required></div>
+        <div class="form-group"><label>Experience (years)</label><input type="number" id="dExperience" min="0"></div>
+        <div class="form-group"><label>Consultation Fee (₹)</label><input type="number" id="dFees" min="0"></div>
+        <div class="form-group"><label>Available Days</label><input type="text" id="dAvailableDays" placeholder="Mon-Sat"></div>
+        <button class="btn" type="submit">Save Profile</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Add medical record modal -->
+<div id="recordModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);align-items:center;justify-content:center;">
+  <div class="form-card" style="margin:0;">
+    <h2>Add Medical Record</h2>
+    <p class="subtitle" id="recordPatientName"></p>
+    <div id="recordAlert"></div>
+    <form onsubmit="return submitRecord(event)">
+      <div class="form-group"><label>Diagnosis</label><input type="text" id="recDiagnosis" required></div>
+      <div class="form-group"><label>Prescription</label><textarea id="recPrescription" rows="2"></textarea></div>
+      <div class="form-group"><label>Notes</label><textarea id="recNotes" rows="2"></textarea></div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn" type="submit" style="flex:1">Save Record</button>
+        <button class="btn secondary" type="button" style="flex:1" onclick="closeRecordModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/doctor.js"></script>
+</body>
+</html>

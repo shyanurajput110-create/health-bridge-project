@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patient Dashboard | HealthBridge</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="brand">🩺 HealthBridge</div>
+  <div class="nav-links">
+    <span id="welcomeMsg"></span>
+    <button class="btn small secondary" onclick="logout()">Logout</button>
+  </div>
+</nav>
+
+<div class="container page">
+  <div class="dashboard-header">
+    <h1>Patient Dashboard</h1>
+  </div>
+
+  <div class="tabs">
+    <button class="active" data-tab="book" onclick="switchTab('book')">Book Appointment</button>
+    <button data-tab="appointments" onclick="switchTab('appointments')">My Appointments</button>
+    <button data-tab="records" onclick="switchTab('records')">Medical Records</button>
+    <button data-tab="profile" onclick="switchTab('profile')">Profile</button>
+  </div>
+
+  <!-- BOOK TAB -->
+  <div id="tab-book" class="tab-content">
+    <div class="card">
+      <h3 style="margin-bottom:14px;">Available Doctors</h3>
+      <div id="doctorList" class="grid-2"></div>
+    </div>
+  </div>
+
+  <!-- APPOINTMENTS TAB -->
+  <div id="tab-appointments" class="tab-content" style="display:none;">
+    <div class="card">
+      <table>
+        <thead><tr><th>Doctor</th><th>Specialization</th><th>Date</th><th>Time</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody id="appointmentsTable"></tbody>
+      </table>
+      <div id="appointmentsEmpty" class="empty-state" style="display:none;">No appointments booked yet.</div>
+    </div>
+  </div>
+
+  <!-- RECORDS TAB -->
+  <div id="tab-records" class="tab-content" style="display:none;">
+    <div class="card">
+      <table>
+        <thead><tr><th>Date</th><th>Doctor</th><th>Diagnosis</th><th>Prescription</th><th>Notes</th></tr></thead>
+        <tbody id="recordsTable"></tbody>
+      </table>
+      <div id="recordsEmpty" class="empty-state" style="display:none;">No medical records yet.</div>
+    </div>
+  </div>
+
+  <!-- PROFILE TAB -->
+  <div id="tab-profile" class="tab-content" style="display:none;">
+    <div class="card" style="max-width:480px;">
+      <div id="profileAlert"></div>
+      <form onsubmit="return saveProfile(event)">
+        <div class="form-group"><label>Name</label><input type="text" id="pName" disabled></div>
+        <div class="form-group"><label>Email</label><input type="email" id="pEmail" disabled></div>
+        <div class="form-group"><label>Phone</label><input type="text" id="pPhone"></div>
+        <div class="form-group"><label>Date of Birth</label><input type="date" id="pDob"></div>
+        <div class="form-group"><label>Gender</label>
+          <select id="pGender"><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select>
+        </div>
+        <div class="form-group"><label>Blood Group</label><input type="text" id="pBloodGroup" placeholder="e.g. O+"></div>
+        <div class="form-group"><label>Address</label><textarea id="pAddress" rows="2"></textarea></div>
+        <button class="btn" type="submit">Save Profile</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- BOOKING MODAL (simple inline form) -->
+<div id="bookModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);align-items:center;justify-content:center;">
+  <div class="form-card" style="margin:0;">
+    <h2>Book Appointment</h2>
+    <p class="subtitle" id="bookDoctorName"></p>
+    <div id="bookAlert"></div>
+    <form onsubmit="return confirmBooking(event)">
+      <div class="form-group"><label>Date</label><input type="date" id="bookDate" required></div>
+      <div class="form-group"><label>Time</label><input type="time" id="bookTime" required></div>
+      <div class="form-group"><label>Reason for visit</label><textarea id="bookReason" rows="2"></textarea></div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn" type="submit" style="flex:1">Confirm</button>
+        <button class="btn secondary" type="button" style="flex:1" onclick="closeBookModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/patient.js"></script>
+</body>
+</html>

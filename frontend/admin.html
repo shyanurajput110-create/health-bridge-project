@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard | HealthBridge</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="brand">🩺 HealthBridge</div>
+  <div class="nav-links">
+    <span id="welcomeMsg"></span>
+    <button class="btn small secondary" onclick="logout()">Logout</button>
+  </div>
+</nav>
+
+<div class="container page">
+  <div class="dashboard-header"><h1>Admin Dashboard</h1></div>
+
+  <div class="stat-grid" id="statGrid"></div>
+
+  <div class="tabs">
+    <button class="active" data-tab="doctors" onclick="switchTab('doctors')">Doctors</button>
+    <button data-tab="patients" onclick="switchTab('patients')">Patients</button>
+    <button data-tab="appointments" onclick="switchTab('appointments')">Appointments</button>
+  </div>
+
+  <div id="tab-doctors" class="tab-content">
+    <div class="card">
+      <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
+        <button class="btn small" onclick="openDoctorModal()">+ Add Doctor</button>
+      </div>
+      <table>
+        <thead><tr><th>Name</th><th>Email</th><th>Specialization</th><th>Experience</th><th>Fee</th><th>Action</th></tr></thead>
+        <tbody id="doctorsTable"></tbody>
+      </table>
+      <div id="doctorsEmpty" class="empty-state" style="display:none;">No doctors yet.</div>
+    </div>
+  </div>
+
+  <div id="tab-patients" class="tab-content" style="display:none;">
+    <div class="card">
+      <table>
+        <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Gender</th><th>Action</th></tr></thead>
+        <tbody id="patientsTable"></tbody>
+      </table>
+      <div id="patientsEmpty" class="empty-state" style="display:none;">No patients yet.</div>
+    </div>
+  </div>
+
+  <div id="tab-appointments" class="tab-content" style="display:none;">
+    <div class="card">
+      <table>
+        <thead><tr><th>Patient</th><th>Doctor</th><th>Specialization</th><th>Date</th><th>Time</th><th>Status</th></tr></thead>
+        <tbody id="appointmentsTable"></tbody>
+      </table>
+      <div id="appointmentsEmpty" class="empty-state" style="display:none;">No appointments yet.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Add doctor modal -->
+<div id="doctorModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);align-items:center;justify-content:center;">
+  <div class="form-card" style="margin:0;">
+    <h2>Add Doctor</h2>
+    <div id="doctorAlert"></div>
+    <form onsubmit="return submitDoctor(event)">
+      <div class="form-group"><label>Name</label><input type="text" id="newDocName" required></div>
+      <div class="form-group"><label>Email</label><input type="email" id="newDocEmail" required></div>
+      <div class="form-group"><label>Temporary Password</label><input type="password" id="newDocPassword" required minlength="6"></div>
+      <div class="form-group"><label>Phone</label><input type="text" id="newDocPhone"></div>
+      <div class="form-group"><label>Specialization</label><input type="text" id="newDocSpecialization" required></div>
+      <div class="form-group"><label>Experience (years)</label><input type="number" id="newDocExperience" min="0"></div>
+      <div class="form-group"><label>Consultation Fee (₹)</label><input type="number" id="newDocFees" min="0"></div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn" type="submit" style="flex:1">Create</button>
+        <button class="btn secondary" type="button" style="flex:1" onclick="closeDoctorModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
